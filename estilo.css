@@ -1,0 +1,291 @@
+:root {
+  --noite: #120a07;
+  --creme: #fbf1e3;
+  --creme-suave: #d9c9b5;
+  --dourado: #e9bd7c;
+  --rosa: #c8102e;
+  --rosa-escura: #8e0b20;
+  --linha: rgba(233, 189, 124, .35);
+  --titulo: "Cormorant Garamond", Georgia, serif;
+  --texto: "Figtree", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+body {
+  background: var(--noite);
+  color: var(--creme);
+  font-family: var(--texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 {
+  font-family: var(--titulo);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.sobrescrito {
+  color: var(--dourado);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+/* Página do convite */
+
+.pagina-convite {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.fundo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 6%;
+  animation: aproximar 9s cubic-bezier(.2, .6, .2, 1) both;
+}
+
+.veu {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(18, 10, 7, .96) 0%,
+    rgba(18, 10, 7, .82) 26%,
+    rgba(18, 10, 7, .25) 50%,
+    rgba(18, 10, 7, 0) 64%
+  );
+}
+
+.convite {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 0 16px max(20px, env(safe-area-inset-bottom));
+  text-align: center;
+  animation: surgir 1.1s .25s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.convite h1 {
+  margin-top: 10px;
+  font-size: clamp(3.1rem, 10vmin + 1rem, 6.6rem);
+  text-shadow: 0 2px 28px rgba(0, 0, 0, .55);
+}
+
+.botoes {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(18px, 3.5vh, 30px);
+}
+
+.botao {
+  position: relative;
+  z-index: 2;
+  min-width: 132px;
+  padding: 15px 30px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: 600 1.08rem var(--texto);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.botao:focus-visible,
+.cartao-link:focus-visible {
+  outline: 2px solid var(--dourado);
+  outline-offset: 3px;
+}
+
+.botao-sim {
+  color: #fff;
+  background: linear-gradient(180deg, var(--rosa), var(--rosa-escura));
+  box-shadow: 0 10px 32px rgba(200, 16, 46, .5), inset 0 1px 0 rgba(255, 255, 255, .25);
+  transform: scale(var(--escala, 1));
+  transition: transform .4s cubic-bezier(.3, 1.6, .5, 1), filter .2s;
+}
+
+.botao-sim:hover { filter: brightness(1.12); }
+
+.botao-nao {
+  color: var(--creme);
+  background: rgba(18, 10, 7, .82);
+  border-color: var(--linha);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, .4);
+  transform: translate(var(--x, 0), var(--y, 0));
+  transition: transform .45s cubic-bezier(.3, 1.35, .5, 1);
+}
+
+.dica {
+  min-height: 1.5em;
+  margin-top: 14px;
+  color: var(--creme-suave);
+  font-size: .98rem;
+}
+
+.coracao {
+  position: fixed;
+  z-index: 5;
+  color: var(--rosa);
+  pointer-events: none;
+}
+
+/* Pétalas */
+
+.petala {
+  position: fixed;
+  top: -24px;
+  z-index: 1;
+  width: 12px;
+  height: 15px;
+  border-radius: 80% 15% 80% 15%;
+  background: linear-gradient(135deg, #d81f3d, #7c0a1c);
+  opacity: .8;
+  pointer-events: none;
+  animation: cair linear infinite;
+}
+
+/* Página do encontro */
+
+.encontro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 88px);
+  max-width: 1120px;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 40px 32px;
+}
+
+.fotos {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  align-items: end;
+  gap: 16px;
+  animation: surgir 1s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.foto {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, .55);
+}
+
+.foto-comida { aspect-ratio: 4 / 5.4; object-position: 50% 62%; }
+.foto-fachada { aspect-ratio: 4 / 5.4; object-position: 50% 28%; margin-bottom: 36px; }
+
+.detalhes {
+  position: relative;
+  z-index: 2;
+  animation: surgir 1s .15s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.detalhes h1 {
+  margin-top: 12px;
+  font-size: clamp(2.7rem, 5.2vw, 4.3rem);
+}
+
+.chamada {
+  margin-top: 22px;
+  color: var(--creme-suave);
+  font-size: 1.08rem;
+}
+
+.detalhes h2 {
+  margin: 4px 0 24px;
+  color: var(--dourado);
+  font-size: clamp(2rem, 3.6vw, 2.8rem);
+}
+
+.cartao-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--linha);
+  border-radius: 14px;
+  background: rgba(251, 241, 227, .05);
+  color: var(--creme-suave);
+  line-height: 1.45;
+  text-decoration: none;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+
+.cartao-link:hover {
+  background: rgba(251, 241, 227, .1);
+  border-color: var(--dourado);
+  transform: translateY(-2px);
+}
+
+.cartao-link span { min-width: 0; overflow-wrap: anywhere; }
+.cartao-link strong { display: block; color: var(--creme); font-size: 1.1rem; font-weight: 600; }
+.cartao-link em { display: block; color: var(--dourado); font-size: .92rem; font-style: normal; font-weight: 500; }
+
+.cartao-mapa {
+  border-color: transparent;
+  background: linear-gradient(180deg, var(--rosa), var(--rosa-escura));
+  color: #fbe6e3;
+}
+
+.cartao-mapa:hover { background: linear-gradient(180deg, #da1635, #9c0d25); border-color: transparent; }
+.cartao-mapa em { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+.icone {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  color: var(--creme);
+}
+
+.icone .ponto { fill: currentColor; stroke: none; }
+
+@media (max-width: 760px) {
+  .encontro {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding: 24px 16px 32px;
+  }
+
+  .detalhes { order: -1; }
+  .foto-fachada { margin-bottom: 0; }
+}
+
+@keyframes aproximar {
+  from { transform: scale(1.07); }
+  to { transform: scale(1); }
+}
+
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes cair {
+  to { transform: translate3d(var(--deriva), 110vh, 0) rotate(var(--giro)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fundo, .convite, .fotos, .detalhes { animation: none; }
+  .botao-sim, .botao-nao, .cartao-link { transition: none; }
+}
