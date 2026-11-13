@@ -7,6 +7,7 @@
   const CRESCIMENTO_SIM = 0.05;
   const ESPERA_SIM_MS = 850;
   const CORACOES = 22;
+  const CLIQUES_PARA_VIRAR_SIM = 5;
 
   const SIMBOLOS = ['♥︎', '♥︎', '♪', '♫'];
   const CORES = ['#ff2a4d', '#3ff0ff', '#ff7a93'];
@@ -16,8 +17,8 @@
     'Esse "não" saiu meio desafinado.',
     'Pensa mais um pouquinho.',
     'O botão do sim está ficando maior. Coincidência?',
-    'Já escolhi até a música pra gente cantar.',
   ];
+  const DICA_VIROU_SIM = 'Pronto, agora são dois sins. Já escolhi até a música pra gente cantar.';
 
   const nao = document.getElementById('nao');
   const sim = document.getElementById('sim');
@@ -66,8 +67,8 @@
     return { x: candidato.left - origem.left, y: candidato.top - origem.top };
   }
 
-  function comemorar() {
-    const { left, top, width, height } = sim.getBoundingClientRect();
+  function comemorar(botao) {
+    const { left, top, width, height } = botao.getBoundingClientRect();
 
     for (let i = 0; i < CORACOES; i++) {
       const coracao = document.createElement('span');
@@ -93,20 +94,46 @@
     }
   }
 
+  function aceitar(botao) {
+    if (movimentoReduzido) {
+      location.href = sim.href;
+      return;
+    }
+    comemorar(botao);
+    setTimeout(() => { location.href = sim.href; }, ESPERA_SIM_MS);
+  }
+
+  // Na última recusa o "Não" volta para o lado do "Sim" e vira um segundo "Sim".
+  function virarSim() {
+    aplicarDeslocamento({ x: 0, y: 0 });
+    nao.textContent = 'Sim';
+    nao.classList.replace('botao-nao', 'botao-sim');
+    dica.textContent = DICA_VIROU_SIM;
+  }
+
   nao.addEventListener('click', () => {
-    aplicarDeslocamento(novoDeslocamento());
-    dica.textContent = DICAS[cliques % DICAS.length];
+    if (cliques >= CLIQUES_PARA_VIRAR_SIM) {
+      aceitar(nao);
+      return;
+    }
+
     cliques += 1;
     sim.style.setProperty('--escala', Math.min(1 + cliques * CRESCIMENTO_SIM, ESCALA_MAXIMA_SIM));
+
+    if (cliques === CLIQUES_PARA_VIRAR_SIM) {
+      virarSim();
+      return;
+    }
+
+    aplicarDeslocamento(novoDeslocamento());
+    dica.textContent = DICAS[(cliques - 1) % DICAS.length];
   });
 
   sim.addEventListener('click', (evento) => {
-    if (movimentoReduzido) return;
     evento.preventDefault();
-    comemorar();
-    setTimeout(() => { location.href = sim.href; }, ESPERA_SIM_MS);
+    aceitar(sim);
   });
 
-  // O layout muda ao girar a tela: devolve o "Não" ao lugar para ele não ficar fora dela.
+  // O layout muda ao girar a tela: devolve o botão ao lugar para ele não ficar fora dela.
   addEventListener('resize', () => aplicarDeslocamento({ x: 0, y: 0 }));
 })();
