@@ -8,12 +8,15 @@
   const ESPERA_SIM_MS = 850;
   const CORACOES = 22;
 
+  const SIMBOLOS = ['♥︎', '♥︎', '♪', '♫'];
+  const CORES = ['#ff2a4d', '#3ff0ff', '#ff7a93'];
+
   const DICAS = [
     'Tem certeza?',
+    'Esse "não" saiu meio desafinado.',
     'Pensa mais um pouquinho.',
-    'Esse botão não parece muito convencido.',
     'O botão do sim está ficando maior. Coincidência?',
-    'Vou continuar perguntando.',
+    'Já escolhi até a música pra gente cantar.',
   ];
 
   const nao = document.getElementById('nao');
@@ -71,7 +74,8 @@
       const angulo = aleatorio(0, Math.PI * 2);
       const alcance = aleatorio(70, 300);
       coracao.className = 'coracao';
-      coracao.textContent = '♥︎';
+      coracao.textContent = SIMBOLOS[i % SIMBOLOS.length];
+      coracao.style.color = CORES[i % CORES.length];
       coracao.style.left = left + width / 2 + 'px';
       coracao.style.top = top + height / 2 + 'px';
       coracao.style.fontSize = aleatorio(16, 38) + 'px';
