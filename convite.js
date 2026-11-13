@@ -13,7 +13,6 @@
     'Pensa mais um pouquinho.',
     'Esse botão não parece muito convencido.',
     'O botão do sim está ficando maior. Coincidência?',
-    'As rosas já foram compradas, viu?',
     'Vou continuar perguntando.',
   ];
 
